@@ -1,0 +1,98 @@
+// Using Procedure and Passing by Reference
+PROCEDURE dot_product(v1, v2: ARRAY_OF INTEGER, VAR ps:INTEGER)
+VAR
+    i:INTEGER;
+BEGIN
+    FOR i FROM 0 TO 1 STEP 1  DO
+        ps:=ps+v1[i]*v2[i];
+    END_FOR
+END
+ALGORITHM orthogonal_vectors
+VAR
+    ps:INTEGER:=0;
+    i,j,n:INTEGER;
+    htab:HASH_TABLE<INTEGER,ARRAY_OF INTEGER>;
+    v: ARRAY_OF INTEGER;
+    test: BOOLEAN:= FALSE;
+BEGIN
+    REPEAT
+        Read(n);
+    UNTIL (n<2)
+      //Create a Hash Table of n arrays
+    FOR i FROM 1 TO n STEP 1  DO
+        Write("Enter the vector N°", i);
+        FOR j FROM 0 TO 1 STEP 1  DO
+        Read(v[j]);
+        END_FOR
+        htab.insert(i, v);
+    END_FOR
+      // Iterate into th Hash Table and called the dot_product
+    FOR i FROM 1 TO n-1 STEP 1  DO
+        FOR j FROM i+1 TO n STEP 1  DO
+            ps:=0;
+            dot_product(htab.get(i), htab.get(j), ps);        
+            IF (ps=0) THEN
+                test=TRUE;
+                BREAK;
+            END_IF
+        END_FOR
+        IF (test) THEN
+            BREAK;
+        END_IF
+    END_FOR
+    IF (test) THEN
+        Write("There are two vectors Orthogonal!");
+    ELSE
+        Write("All vectors are not Orthogonal!")
+    END_IF
+END
+
+
+// Using Function
+FUNCTION dot_product(v1, v2: ARRAY_OF INTEGER): INTEGER
+VAR
+    i, ps:INTEGER;
+BEGIN
+    FOR i FROM 0 TO 1 STEP 1  DO
+        ps:=ps+v1[i]*v2[i];
+    END_FOR
+    RETURN ps;
+END
+ALGORITHM orthogonal_vectors
+VAR
+    ps:INTEGER;
+    i,j,n:INTEGER;
+    htab:HASH_TABLE<INTEGER,ARRAY_OF INTEGER>;
+    v: ARRAY_OF INTEGER;
+    test: BOOLEAN:= FALSE;
+BEGIN
+    REPEAT
+        Read(n);
+    UNTIL (n<2)
+      //Create a Hash Table of n arrays
+    FOR i FROM 1 TO n STEP 1  DO
+        Write("Enter the vector N°", i);
+        FOR j FROM 0 TO 1 STEP 1  DO
+        Read(v[j]);
+        END_FOR
+        htab.insert(i, v);
+    END_FOR
+      // Iterate into th Hash Table and called the dot_product
+    FOR i FROM 1 TO n-1 STEP 1  DO
+        FOR j FROM i+1 TO n STEP 1  DO
+            ps:= dot_product(htab.get(i), htab.get(j));        
+            IF (ps=0) THEN
+                test=TRUE;
+                BREAK;
+            END_IF
+        END_FOR
+        IF (test) THEN
+            BREAK;
+        END_IF
+    END_FOR
+    IF (test) THEN
+        Write("There are two vectors Orthogonal!");
+    ELSE
+        Write("All vectors are not Orthogonal!")
+    END_IF
+END
